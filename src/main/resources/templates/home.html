@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+<div class="tabs">
+  <input type="radio" class="tabs__radio" name="tabs-example" id="tab1" checked>
+  <label for="tab1" class="tabs__label">User Details</label>
+  <div class="tabs__content">
+
+    <main class="table">
+      <section class="table__header">
+        <h1>Users</h1>
+        <form class="search" role="search" method="get" action="/search">
+          <label for="search">Search Users</label>
+          <input type="radio" name="searchType" value="name" required> <span>Name</span>
+          <input type="radio" name="searchType" value="email" required> <span>Email</span>
+          <input type="radio" name="searchType" value="phone" required> <span>Phone</span>
+          <input id="search" class="search" type="search" name="value" placeholder="Search..." autofocus required />
+          <button type="submit" class="button-7">Go</button>
+        </form>
+        <form th:action="@{'/'}" method="get">
+          <button type="submit" class="button-7">Refresh</button>
+        </form>
+      </section>
+      <section class="table__body">
+        <table>
+          <thead>
+          <tr>
+            <th> Id <span class="icon-arrow">&UpArrow;</span></th>
+            <th> User Name <span class="icon-arrow">&UpArrow;</span></th>
+            <th> Email Id <span class="icon-arrow">&UpArrow;</span></th>
+            <th> Phone Number <span class="icon-arrow">&UpArrow;</span></th>
+            <th> Creation date <span class="icon-arrow">&UpArrow;</span></th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="user : ${searchResults}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.phone}"></td>
+            <td th:text="${user.date}"></td>
+            <td><form th:action="@{'/getid?id=' + ${user.id}}" method="post">
+              <button type="submit" class="button-7">Export to PDF</button>
+            </form></td>
+          </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <input type="radio" class="tabs__radio" name="tabs-example" id="tab2">
+  <label for="tab2" class="tabs__label">Account Creation</label>
+  <div class="tabs__content">
+    <div class="form">
+      <form method="post" action="/" th:object="${loginRequest}">
+        <h2>Create Account</h2>
+        <div class="input-box">
+          <i class="fa fa-user" aria-hidden="true"></i>
+          <input type="text" name="name" placeholder="User Name" required>
+        </div>
+        <div class="input-box">
+          <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+          <input type="email" name="email" placeholder="Email"  required>
+        </div>
+        <div class="input-box">
+          <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+          <input type="number" name="phone" placeholder="Phone Number"  required>
+        </div>
+        <div class="input-box">
+          <input type="submit" name="sign-in" value="Create">
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
